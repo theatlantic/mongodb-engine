@@ -1,0 +1,167 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Storing Python Lists and Dicts &mdash; django-mongodb-engine v0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-mongodb-engine v0.2.0 documentation" href="index.html" />
+    <link rel="next" title="Other Cool Stuff" href="cool-stuff.html" />
+    <link rel="prev" title="Embedded Objects" href="embedded-objects.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="cool-stuff.html" title="Other Cool Stuff"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="embedded-objects.html" title="Embedded Objects"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">django-mongodb-engine v0.2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="storing-python-lists-and-dicts">
+<h1>Storing Python Lists and Dicts<a class="headerlink" href="#storing-python-lists-and-dicts" title="Permalink to this headline">¶</a></h1>
+<p>Using <a class="reference internal" href="#ListField" title="ListField"><tt class="xref py py-class docutils literal"><span class="pre">ListField</span></tt></a> and <a class="reference internal" href="#DictField" title="DictField"><tt class="xref py py-class docutils literal"><span class="pre">DictField</span></tt></a>, you can store <em>arbitrary</em> Python
+lists, dicts and sets in MongoDB.</p>
+<dl class="class">
+<dt id="ListField">
+<em class="property">class </em><tt class="descname">ListField</tt><a class="headerlink" href="#ListField" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="SetField">
+<em class="property">class </em><tt class="descname">SetField</tt><a class="headerlink" href="#SetField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">djangotoolbox.fields</span> <span class="kn">import</span> <span class="n">ListField</span><span class="p">,</span> <span class="n">SetField</span>
+
+<span class="k">def</span> <span class="nf">optional_ordering</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Optional ordering function (sorts reversed) &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">n</span>
+
+<span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">SetField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="nb">set</span><span class="p">())</span>
+    <span class="n">ratings</span> <span class="o">=</span> <span class="n">ListField</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(),</span> <span class="n">ordering</span><span class="o">=</span><span class="n">optional_ordering</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A <tt class="docutils literal"><span class="pre">Post</span></tt>&#8216;s <tt class="docutils literal"><span class="pre">tags</span></tt> attribute now is a standard Python list:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">post_about_turtles</span> <span class="o">=</span> <span class="n">Post</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">&#39;I Like Turtles&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                         <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;animals&#39;</span><span class="p">,</span> <span class="s">&#39;food&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">post_about_turtles</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&#39;food&#39;</span><span class="p">)</span> <span class="c"># nobody would eat animals, right?</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">post_about_turtles</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Post</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">tags</span>
+<span class="go">set([&#39;animals&#39;]) # see how the list got a set</span>
+</pre></div>
+</div>
+<p>If you pass a field instance as argument, items of the list or dict will be
+converted into a data type compatible to this field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">post_about_turtles</span><span class="o">.</span><span class="n">ratings</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">post_about_turtles</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Post</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">ratings</span>
+<span class="go">[3, 1] # reverse-ordering function, remember?</span>
+</pre></div>
+</div>
+<p>Let&#8217;s have a look at the MongoDB data set.</p>
+<div class="highlight-js"><div class="highlight"><pre><span class="cm">/* &gt; db.docs_post.findOne() */</span>
+<span class="p">{</span>
+    <span class="s2">&quot;_id&quot;</span> <span class="o">:</span> <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;4cee6e62e4721c6508000000&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;ratings&quot;</span> <span class="o">:</span> <span class="p">[</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="mi">3</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;tags&quot;</span> <span class="o">:</span> <span class="p">[</span>
+        <span class="s2">&quot;animal&quot;</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;title&quot;</span> <span class="o">:</span> <span class="s2">&quot;I Like Turtles&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="DictField">
+<em class="property">class </em><tt class="descname">DictField</tt><a class="headerlink" href="#DictField" title="Permalink to this definition">¶</a></dt>
+<dd><p>behaves similar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">djangotoolbox.fields</span> <span class="kn">import</span> <span class="n">DictField</span>
+
+<span class="k">class</span> <span class="nc">MyMotherWentShopping</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">and_she_bought</span> <span class="o">=</span> <span class="n">DictField</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_mother_went_shopping</span> <span class="o">=</span> <span class="n">MyMotherWentShopping</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_mother_went_shopping</span><span class="o">.</span><span class="n">and_she_bought</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s">&#39;eggs&#39;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s">&#39;bread&#39;</span> <span class="p">:</span> <span class="s">&#39;two loafs&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s">&#39;tofu&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;because I hate tofu&#39;</span><span class="p">])</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_mother_went_shopping</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MyMotherWentShopping</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">and_she_bought</span>
+<span class="go">{u&#39;bread&#39;: u&#39;two loafs&#39;, u&#39;eggs&#39;: 3, u&#39;tofu&#39;: [None, [u&#39;because I hate tofu&#39;]]}</span>
+</pre></div>
+</div>
+<p>As you can see, the tuple of the <em>tofu</em> item ends up being a list when fetched
+from the database. That&#8217;s because MongoDB has no tuples and nobody told Django
+to convert it to a tuple, so it&#8217;s still a list.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="cool-stuff.html" title="Other Cool Stuff"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="embedded-objects.html" title="Embedded Objects"
+             >previous</a> |</li>
+        <li><a href="index.html">django-mongodb-engine v0.2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009-2010: Flavio Percoco, Alberto Paro, Jonas Haag &amp; contributors.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+    </div>
+  </body>
+</html>
