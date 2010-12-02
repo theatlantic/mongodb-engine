@@ -51,23 +51,44 @@
             
   <div class="section" id="other-cool-stuff">
 <h1>Other Cool Stuff<a class="headerlink" href="#other-cool-stuff" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="map-reduce-support">
-<span id="mapreduce"></span><h2>Map/Reduce Support<a class="headerlink" href="#map-reduce-support" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="included-mongodb-batteries">
+<span id="mapreduce"></span><h2>Included MongoDB Batteries<a class="headerlink" href="#included-mongodb-batteries" title="Permalink to this headline">¶</a></h2>
 <p>For usage examples, see <tt class="file docutils literal"><span class="pre">tests/contrib/tests.py</span></tt>.</p>
 <dl class="class">
 <dt id="django_mongodb_engine.contrib.MongoDBManager">
 <em class="property">class </em><tt class="descclassname">django_mongodb_engine.contrib.</tt><tt class="descname">MongoDBManager</tt><a class="headerlink" href="#django_mongodb_engine.contrib.MongoDBManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Example usage:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django_mongodb_engine.contrib</span> <span class="kn">import</span> <span class="n">MongoDBManager</span>
+
 <span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">objects</span> <span class="o">=</span> <span class="n">MongoDBManager</span><span class="p">()</span>
 
 <span class="n">MyModel</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">map_reduce</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="c"># See `MapReduceMixin` documentation</span>
+<span class="n">MyModel</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">raw_query</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c"># See `RawQueryMixin` documentation</span>
 </pre></div>
 </div>
 </dd></dl>
 
-<span class="target" id="module-django_mongodb_engine.contrib.mapreduce"></span><dl class="class">
+<div class="section" id="raw-queries">
+<h3>Raw Queries<a class="headerlink" href="#raw-queries" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django_mongodb_engine.contrib.RawQueryMixin">
+<em class="property">class </em><tt class="descclassname">django_mongodb_engine.contrib.</tt><tt class="descname">RawQueryMixin</tt><a class="headerlink" href="#django_mongodb_engine.contrib.RawQueryMixin" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="django_mongodb_engine.contrib.RawQueryMixin.raw_query">
+<tt class="descname">raw_query</tt><big>(</big><em>query=None</em><big>)</big><a class="headerlink" href="#django_mongodb_engine.contrib.RawQueryMixin.raw_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does a raw MongoDB query. The optional parameter <cite>query</cite> is the spec
+passed to PyMongo&#8217;s <tt class="xref py py-meth docutils literal"><span class="pre">find()</span></tt> method.</p>
+<p>Note that you can&#8217;t use regular Django filters and <tt class="xref py py-meth docutils literal"><span class="pre">raw_query()</span></tt>
+at the same time. Trying to do so will raise a <tt class="xref py py-exc docutils literal"><span class="pre">TypeError</span></tt>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-django_mongodb_engine.contrib.mapreduce">
+<span id="map-reduce-support"></span><h3>Map/Reduce Support<a class="headerlink" href="#module-django_mongodb_engine.contrib.mapreduce" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
 <dt id="django_mongodb_engine.contrib.mapreduce.MapReduceMixin">
 <em class="property">class </em><tt class="descclassname">django_mongodb_engine.contrib.mapreduce.</tt><tt class="descname">MapReduceMixin</tt><a class="headerlink" href="#django_mongodb_engine.contrib.mapreduce.MapReduceMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mixes MapReduce support into your manager.</p>
@@ -127,23 +148,53 @@ database (doing a database query).</p>
 </dd></dl>
 
 </div>
+</div>
 <div class="section" id="module-django_mongodb_engine.fields">
 <span id="fields"></span><span id="mongodb-fields"></span><h2>Fields<a class="headerlink" href="#module-django_mongodb_engine.fields" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="django_mongodb_engine.fields.EmbeddedModelField">
-<em class="property">class </em><tt class="descclassname">django_mongodb_engine.fields.</tt><tt class="descname">EmbeddedModelField</tt><big>(</big><em>embedded_model=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_mongodb_engine.fields.EmbeddedModelField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">django_mongodb_engine.fields.</tt><tt class="descname">EmbeddedModelField</tt><big>(</big><em>model</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_mongodb_engine.fields.EmbeddedModelField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Field that allows you to embed a model instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> &#8211; The (optional) model class that shall be embedded</li>
+<li><strong>model</strong> &#8211; The model class that shall be embedded</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+<p>For example, we want to namespace everything that belongs to a customer&#8217;s
+address into the <tt class="docutils literal"><span class="pre">address</span></tt> field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">street</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">postal_code</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">city</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">EmbeddedModelField</span><span class="p">(</span><span class="n">Address</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#django_mongodb_engine.fields.EmbeddedModelField" title="django_mongodb_engine.fields.EmbeddedModelField"><tt class="xref py py-class docutils literal"><span class="pre">EmbeddedModelField</span></tt></a> behaves similar to relations:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">bob</span> <span class="o">=</span> <span class="n">Customer</span><span class="p">(</span>
+   <span class="n">name</span><span class="o">=</span><span class="s">&#39;Bob&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s">&#39;Laxley&#39;</span><span class="p">,</span>
+   <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">street</span><span class="o">=</span><span class="s">&#39;Behind the Mountains 23&#39;</span><span class="p">,</span>
+                   <span class="n">postal_code</span><span class="o">=</span><span class="mi">1337</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s">&#39;Blurginson&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">assert</span> <span class="n">bob</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">postal_code</span> <span class="o">==</span> <span class="mi">1337</span>
+</pre></div>
+</div>
+<p>When saved, embedded models are serialized to dictionaries. When queried,
+the dictionary will be unserialized back to a model instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">bob</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="n">bob_from_db</span> <span class="o">=</span> <span class="n">Customer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Bob&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">bob_from_db</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">city</span> <span class="o">==</span> <span class="s">&#39;Blurginson&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
