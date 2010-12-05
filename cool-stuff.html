@@ -85,11 +85,12 @@ at the same time. Trying to do so will raise a <tt class="xref py py-exc docutil
 
 <dl class="method">
 <dt id="django_mongodb_engine.contrib.RawQueryMixin.raw_update">
-<tt class="descname">raw_update</tt><big>(</big><em>spec_or_q</em>, <em>update_dict</em><big>)</big><a class="headerlink" href="#django_mongodb_engine.contrib.RawQueryMixin.raw_update" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">raw_update</tt><big>(</big><em>spec_or_q</em>, <em>update_dict</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_mongodb_engine.contrib.RawQueryMixin.raw_update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does a raw MongoDB update. <cite>spec_or_q</cite> is either a MongoDB filter
 dict or a <tt class="xref py py-class docutils literal"><span class="pre">Q</span></tt> instance that selects
 the records to update. <cite>update_dict</cite> is a MongoDB style update document
 containing either a new document or atomic modifiers such as <tt class="docutils literal"><span class="pre">$inc</span></tt>.</p>
+<p>Keyword arguments will be passed to <tt class="xref py py-meth docutils literal"><span class="pre">pymongo.Collection.update()</span></tt>.</p>
 </dd></dl>
 
 </dd></dl>
