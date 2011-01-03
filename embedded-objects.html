@@ -2,13 +2,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Embedded Objects &mdash; django-mongodb-engine v0.2.0 documentation</title>
+    
     <link rel="stylesheet" href="static/nature.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
@@ -211,75 +214,10 @@ to crawl through the whole collection:</p>
 </div>
 <div class="section" id="querying-and-updating-embedded-objects">
 <span id="embedded-objects-queries"></span><h2>Querying and Updating Embedded Objects<a class="headerlink" href="#querying-and-updating-embedded-objects" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="querying">
-<h3>Querying<a class="headerlink" href="#querying" title="Permalink to this headline">¶</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">A</span><span class="p">(</span><span class="s">&#39;subfield&#39;</span><span class="p">,</span> <span class="s">&#39;value&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>translates to the Mongo query</p>
-<div class="last highlight-js"><div class="highlight"><pre><span class="p">.</span><span class="nx">find</span><span class="p">(</span> <span class="p">{</span><span class="s1">&#39;field.subfield&#39;</span> <span class="o">:</span> <span class="s1">&#39;value&#39;</span><span class="p">}</span> <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>django-mongodb-engine has full support for
-<a class="reference external" href="MongoDB'sembeddedobjects">queries and updates that reach into subobjects</a>
-using the <tt class="xref py py-class docutils literal"><span class="pre">A</span></tt> query helper.</p>
-<p>For example, <em>find any customer whose habitat is London</em>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django_mongodb_engine.query</span> <span class="kn">import</span> <span class="n">A</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Customer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Bob&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="s">&#39;NY&#39;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Customer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Ann&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="s">&#39;London&#39;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Customer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">A</span><span class="p">(</span><span class="s">&#39;city&#39;</span><span class="p">,</span> <span class="s">&#39;London&#39;</span><span class="p">))</span>
-<span class="go">[&lt;Customer &#39;Ann&#39;&gt;]</span>
-</pre></div>
-</div>
-<p>If you <a class="reference internal" href="faq.html#query-debugging"><em>enable query debugging</em></a>,
-you can see what this query translates to:</p>
-<div class="highlight-python"><pre>DEBUG [...] .find {'address.city': 'London'} [...]</pre>
-</div>
-<p>If you need to match multiple filters on the same embedded field, chain
-<tt class="xref py py-meth docutils literal"><span class="pre">filter()</span></tt> calls:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">Customer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">A</span><span class="p">(</span><span class="s">&#39;city&#39;</span><span class="p">,</span> <span class="s">&#39;London&#39;</span><span class="p">))</span> \
-                <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">A</span><span class="p">(</span><span class="s">&#39;street&#39;</span><span class="p">,</span> <span class="s">&#39;Some street&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>This translates to:</p>
-<div class="highlight-js"><div class="highlight"><pre><span class="p">.</span><span class="nx">find</span><span class="p">(</span> <span class="p">{</span><span class="s1">&#39;address.city&#39;</span><span class="o">:</span> <span class="s1">&#39;London&#39;</span><span class="p">,</span> <span class="s1">&#39;address.street&#39;</span><span class="o">:</span> <span class="s1">&#39;Some street&#39;</span><span class="p">}</span> <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="updating">
-<h3>Updating<a class="headerlink" href="#updating" title="Permalink to this headline">¶</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="s">&#39;bar&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">A</span><span class="p">(</span><span class="s">&#39;subfield&#39;</span><span class="p">,</span> <span class="s">&#39;new-value&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>translates to the Mongo query</p>
-<div class="last highlight-js"><div class="highlight"><pre><span class="p">.</span><span class="nx">update</span><span class="p">(</span> <span class="p">{</span><span class="nx">foo</span><span class="o">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$set&#39;</span> <span class="o">:</span> <span class="p">{</span><span class="s1">&#39;field.subfield&#39;</span> <span class="o">:</span> <span class="s1">&#39;new-value&#39;</span><span class="p">}}</span> <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>Updating works similar to this, e.g. John moved to Houston:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">Customer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;John&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">addresss</span><span class="o">=</span><span class="n">A</span><span class="p">(</span><span class="s">&#39;city&#39;</span><span class="p">,</span> <span class="s">&#39;Houston&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>Translates to:</p>
-<div class="highlight-js"><div class="highlight"><pre><span class="p">.</span><span class="nx">update</span><span class="p">(</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="o">:</span> <span class="s1">&#39;John&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$set&#39;</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;address.city&#39;</span><span class="o">:</span> <span class="s1">&#39;Houston&#39;</span><span class="p">}}</span> <span class="p">)</span>
-</pre></div>
-</div>
-<p>Of course, <tt class="xref py py-class docutils literal"><span class="pre">A</span></tt> can be used for both filtering
-and updating at the same time; for example, for moving all customers from
-New York to Canasas:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">Customer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">A</span><span class="p">(</span><span class="s">&#39;city&#39;</span><span class="p">,</span> <span class="s">&#39;NY&#39;</span><span class="p">))</span> \
-                <span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">A</span><span class="p">(</span><span class="s">&#39;city&#39;</span><span class="p">,</span> <span class="s">&#39;Cansas&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>Which translates to:</p>
-<div class="highlight-js"><div class="highlight"><pre><span class="p">.</span><span class="nx">update</span><span class="p">(</span> <span class="p">{</span><span class="s1">&#39;address.city&#39;</span><span class="o">:</span> <span class="s1">&#39;NY&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$set&#39;</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;address.city&#39;</span><span class="o">:</span> <span class="s1">&#39;Cansas&#39;</span><span class="p">}}</span> <span class="p">)</span>
-</pre></div>
-</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Sorry, this stuff is broken. Please fall back to
+<a class="reference external" href="raq-queries">raw queries</a> for now</p>
 </div>
 </div>
 </div>
@@ -309,7 +247,7 @@ New York to Canasas:</p>
     </div>
     <div class="footer">
         &copy; Copyright 2009-2010: Flavio Percoco, Alberto Paro, Jonas Haag &amp; contributors.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
     </div>
   </body>
 </html>
