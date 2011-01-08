@@ -2,16 +2,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Other Cool Stuff &mdash; django-mongodb-engine v0.2.0 documentation</title>
-    
     <link rel="stylesheet" href="static/nature.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
@@ -124,7 +121,7 @@ each item in the array the MapReduce query returns.</p>
 <li><strong>limit</strong> &#8211; (optional) Maximum number of entries to be processed</li>
 <li><strong>scope</strong> &#8211; (optional) Variable scope to pass the functions (<a class="reference external" href="http://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></a>)</li>
 <li><strong>keeptemp</strong> &#8211; Whether to keep the temporarily created collection
-(boolean, defaults to <tt class="xref py py-const docutils literal"><span class="pre">False</span></tt>)</li>
+(boolean, defaults to <tt class="xref py py-const xref docutils literal"><span class="pre">False</span></tt>)</li>
 </ul>
 </td>
 </tr>
@@ -166,20 +163,48 @@ database (doing a database query).</p>
 <span id="fields"></span><span id="mongodb-fields"></span><h2>Fields<a class="headerlink" href="#module-django_mongodb_engine.fields" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="django_mongodb_engine.fields.EmbeddedModelField">
-<em class="property">class </em><tt class="descclassname">django_mongodb_engine.fields.</tt><tt class="descname">EmbeddedModelField</tt><big>(</big><em>embedded_model=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_mongodb_engine.fields.EmbeddedModelField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">django_mongodb_engine.fields.</tt><tt class="descname">EmbeddedModelField</tt><big>(</big><em>model</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_mongodb_engine.fields.EmbeddedModelField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Field that allows you to embed a model instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> &#8211; (optional) The model class that shall be embedded
-(may also be passed as string similar to relation fields)</li>
+<li><strong>model</strong> &#8211; The model class that shall be embedded</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+<p>For example, we want to namespace everything that belongs to a customer&#8217;s
+address into the <tt class="docutils literal"><span class="pre">address</span></tt> field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">street</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">postal_code</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">city</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">EmbeddedModelField</span><span class="p">(</span><span class="n">Address</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#django_mongodb_engine.fields.EmbeddedModelField" title="django_mongodb_engine.fields.EmbeddedModelField"><tt class="xref py py-class docutils literal"><span class="pre">EmbeddedModelField</span></tt></a> behaves similar to relations:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">bob</span> <span class="o">=</span> <span class="n">Customer</span><span class="p">(</span>
+   <span class="n">name</span><span class="o">=</span><span class="s">&#39;Bob&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s">&#39;Laxley&#39;</span><span class="p">,</span>
+   <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">street</span><span class="o">=</span><span class="s">&#39;Behind the Mountains 23&#39;</span><span class="p">,</span>
+                   <span class="n">postal_code</span><span class="o">=</span><span class="mi">1337</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s">&#39;Blurginson&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="k">assert</span> <span class="n">bob</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">postal_code</span> <span class="o">==</span> <span class="mi">1337</span>
+</pre></div>
+</div>
+<p>When saved, embedded models are serialized to dictionaries. When queried,
+the dictionary will be unserialized back to a model instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">bob</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="n">bob_from_db</span> <span class="o">=</span> <span class="n">Customer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Bob&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">bob_from_db</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">city</span> <span class="o">==</span> <span class="s">&#39;Blurginson&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -222,7 +247,7 @@ For example,</p>
 </div>
 <p class="last">would create an ascending index on field <tt class="docutils literal"><span class="pre">a</span></tt> and a descending one on <tt class="docutils literal"><span class="pre">b</span></tt>.</p>
 </dd>
-<dt><tt class="docutils literal"><span class="pre">capped</span></tt> (default: <tt class="xref py py-const docutils literal"><span class="pre">False</span></tt>)</dt>
+<dt><tt class="docutils literal"><span class="pre">capped</span></tt> (default: <tt class="xref py py-const xref docutils literal"><span class="pre">False</span></tt>)</dt>
 <dd>A boolean specifying whether the collection for the model shall be capped.</dd>
 <dt><tt class="docutils literal"><span class="pre">collection_size</span></tt> and <tt class="docutils literal"><span class="pre">collection_max</span></tt> (default: unset)</dt>
 <dd>If using a <tt class="docutils literal"><span class="pre">capped</span></tt> collection, those two options specify the size (in bytes)
@@ -231,7 +256,7 @@ and the maximum number of objects of the capped collection, respectively.</dd>
 </div>
 <div class="section" id="automatic-model-instance-de-referencing">
 <h2>Automatic Model Instance (De)Referencing<a class="headerlink" href="#automatic-model-instance-de-referencing" title="Permalink to this headline">¶</a></h2>
-<p>If you set the <tt class="docutils literal"><span class="pre">MONGODB_AUTOMATIC_REFERENCING</span></tt> option to <tt class="xref py py-class docutils literal"><span class="pre">True</span></tt> in
+<p>If you set the <tt class="docutils literal"><span class="pre">MONGODB_AUTOMATIC_REFERENCING</span></tt> option to <tt class="xref py py-class xref docutils literal"><span class="pre">True</span></tt> in
 your <tt class="file docutils literal"><span class="pre">settings.py</span></tt>, django-mongodb-engine automatically references
 model instances in <a class="reference internal" href="lists-and-dicts.html#ListField" title="ListField"><tt class="xref py py-class docutils literal"><span class="pre">lists</span></tt></a> or <a class="reference internal" href="lists-and-dicts.html#DictField" title="DictField"><tt class="xref py py-class docutils literal"><span class="pre">dicts</span></tt></a> on
 saves and dereferences them when you access an attribute.</p>
@@ -263,7 +288,7 @@ saves and dereferences them when you access an attribute.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2009-2010: Flavio Percoco, Alberto Paro, Jonas Haag &amp; contributors.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
     </div>
   </body>
 </html>
