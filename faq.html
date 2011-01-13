@@ -2,17 +2,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Frequently Asked Questions &mdash; django-mongodb-engine v0.2.0 documentation</title>
+    <title>Frequently Asked Questions &mdash; django-mongodb-engine v0.3.0 documentation</title>
+    
     <link rel="stylesheet" href="static/nature.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.0',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -21,7 +24,8 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="django-mongodb-engine v0.2.0 documentation" href="index.html" />
+    <link rel="top" title="django-mongodb-engine v0.3.0 documentation" href="index.html" />
+    <link rel="next" title="Changelog" href="changelog.html" />
     <link rel="prev" title="Other Cool Stuff" href="cool-stuff.html" /> 
   </head>
   <body>
@@ -35,9 +39,12 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="changelog.html" title="Changelog"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
           <a href="cool-stuff.html" title="Other Cool Stuff"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">django-mongodb-engine v0.2.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">django-mongodb-engine v0.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -56,9 +63,9 @@
 <h2>Does it support transactions?<a class="headerlink" href="#does-it-support-transactions" title="Permalink to this headline">¶</a></h2>
 <p>No, because MongoDB doesn&#8217;t.</p>
 </div>
-<div class="section" id="can-i-do-raw-queries">
-<h2>Can I do Raw Queries?<a class="headerlink" href="#can-i-do-raw-queries" title="Permalink to this headline">¶</a></h2>
-<p>Yep! See <a class="reference internal" href="cool-stuff.html#raw-queries"><em>Raw Queries</em></a>.</p>
+<div class="section" id="can-i-do-raw-queries-updates">
+<h2>Can I do Raw Queries/Updates?<a class="headerlink" href="#can-i-do-raw-queries-updates" title="Permalink to this headline">¶</a></h2>
+<p>Yep! See <a class="reference internal" href="cool-stuff.html#raw-queries-and-updates"><em>Raw Queries/Updates</em></a>.</p>
 </div>
 <div class="section" id="how-can-i-use-capped-collections">
 <h2>How can I use Capped Collections?<a class="headerlink" href="#how-can-i-use-capped-collections" title="Permalink to this headline">¶</a></h2>
@@ -66,7 +73,7 @@
 </div>
 <div class="section" id="does-it-support-query-debugging">
 <span id="query-debugging"></span><h2>Does it support query debugging?<a class="headerlink" href="#does-it-support-query-debugging" title="Permalink to this headline">¶</a></h2>
-<p>Yep! Set <tt class="docutils literal"><span class="pre">DEBUG</span></tt> to <tt class="xref py py-const xref docutils literal"><span class="pre">True</span></tt> in your <tt class="file docutils literal"><span class="pre">settings.py</span></tt> and
+<p>Yep! Set <tt class="docutils literal"><span class="pre">DEBUG</span></tt> to <tt class="xref py py-const docutils literal"><span class="pre">True</span></tt> in your <tt class="file docutils literal"><span class="pre">settings.py</span></tt> and
 <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/logging/#configuring-logging">configure</a>
 the <tt class="docutils literal"><span class="pre">django.db.backends</span></tt> logger, for example like this:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">LOGGING</span> <span class="o">=</span> <span class="p">{</span>
@@ -106,14 +113,17 @@ the <tt class="docutils literal"><span class="pre">django.db.backends</span></tt
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="changelog.html" title="Changelog"
+             >next</a> |</li>
+        <li class="right" >
           <a href="cool-stuff.html" title="Other Cool Stuff"
              >previous</a> |</li>
-        <li><a href="index.html">django-mongodb-engine v0.2.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">django-mongodb-engine v0.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2009-2010: Flavio Percoco, Alberto Paro, Jonas Haag &amp; contributors.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.4.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
     </div>
   </body>
 </html>
