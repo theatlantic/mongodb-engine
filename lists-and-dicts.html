@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Storing Python Lists and Dicts &mdash; django-mongodb-engine v0.3.0 documentation</title>
+    <title>Storing Python Lists and Dicts &mdash; django-mongodb-engine 0.3.0 documentation</title>
     
     <link rel="stylesheet" href="static/nature.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="django-mongodb-engine v0.3.0 documentation" href="index.html" />
+    <link rel="top" title="django-mongodb-engine 0.3.0 documentation" href="index.html" />
     <link rel="next" title="Other Cool Stuff" href="cool-stuff.html" />
     <link rel="prev" title="Embedded Objects" href="embedded-objects.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="embedded-objects.html" title="Embedded Objects"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">django-mongodb-engine v0.3.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">django-mongodb-engine 0.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,17 +54,11 @@
             
   <div class="section" id="storing-python-lists-and-dicts">
 <h1>Storing Python Lists and Dicts<a class="headerlink" href="#storing-python-lists-and-dicts" title="Permalink to this headline">¶</a></h1>
-<p>Using <a class="reference internal" href="#ListField" title="ListField"><tt class="xref py py-class docutils literal"><span class="pre">ListField</span></tt></a> and <a class="reference internal" href="#DictField" title="DictField"><tt class="xref py py-class docutils literal"><span class="pre">DictField</span></tt></a>, you can store <em>arbitrary</em> Python
+<p>Using <tt class="xref py py-class docutils literal"><span class="pre">ListField</span></tt> and <tt class="xref py py-class docutils literal"><span class="pre">DictField</span></tt>, you can store <em>arbitrary</em> Python
 lists, dicts and sets in MongoDB.</p>
-<dl class="class">
-<dt id="ListField">
-<em class="property">class </em><tt class="descname">ListField</tt><a class="headerlink" href="#ListField" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="class">
-<dt id="SetField">
-<em class="property">class </em><tt class="descname">SetField</tt><a class="headerlink" href="#SetField" title="Permalink to this definition">¶</a></dt>
-<dd><p>Example:</p>
+<div class="section" id="listfield-setfield">
+<h2><tt class="xref py py-class docutils literal"><span class="pre">ListField</span></tt>/<tt class="xref py py-class docutils literal"><span class="pre">SetField</span></tt><a class="headerlink" href="#listfield-setfield" title="Permalink to this headline">¶</a></h2>
+<p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">djangotoolbox.fields</span> <span class="kn">import</span> <span class="n">ListField</span><span class="p">,</span> <span class="n">SetField</span>
 
 <span class="k">def</span> <span class="nf">optional_ordering</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
@@ -109,12 +103,10 @@ converted into a data type compatible to this field:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<dl class="class">
-<dt id="DictField">
-<em class="property">class </em><tt class="descname">DictField</tt><a class="headerlink" href="#DictField" title="Permalink to this definition">¶</a></dt>
-<dd><p>behaves similar:</p>
+</div>
+<div class="section" id="dictfield">
+<h2><tt class="xref py py-class docutils literal"><span class="pre">DictField</span></tt><a class="headerlink" href="#dictfield" title="Permalink to this headline">¶</a></h2>
+<p>Behaves similar:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">djangotoolbox.fields</span> <span class="kn">import</span> <span class="n">DictField</span>
 
 <span class="k">class</span> <span class="nc">MyMotherWentShopping</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -135,8 +127,7 @@ converted into a data type compatible to this field:</p>
 <p>As you can see, the tuple of the <em>tofu</em> item ends up being a list when fetched
 from the database. That&#8217;s because MongoDB has no tuples and nobody told Django
 to convert it to a tuple, so it&#8217;s still a list.</p>
-</dd></dl>
-
+</div>
 </div>
 
 
@@ -159,7 +150,7 @@ to convert it to a tuple, so it&#8217;s still a list.</p>
         <li class="right" >
           <a href="embedded-objects.html" title="Embedded Objects"
              >previous</a> |</li>
-        <li><a href="index.html">django-mongodb-engine v0.3.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">django-mongodb-engine 0.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

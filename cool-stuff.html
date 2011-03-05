@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Other Cool Stuff &mdash; django-mongodb-engine v0.3.0 documentation</title>
+    <title>Other Cool Stuff &mdash; django-mongodb-engine 0.3.0 documentation</title>
     
     <link rel="stylesheet" href="static/nature.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="django-mongodb-engine v0.3.0 documentation" href="index.html" />
+    <link rel="top" title="django-mongodb-engine 0.3.0 documentation" href="index.html" />
     <link rel="next" title="Frequently Asked Questions" href="faq.html" />
     <link rel="prev" title="Storing Python Lists and Dicts" href="lists-and-dicts.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="lists-and-dicts.html" title="Storing Python Lists and Dicts"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">django-mongodb-engine v0.3.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">django-mongodb-engine 0.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -84,8 +84,6 @@
 <tt class="descname">raw_query</tt><big>(</big><em>query=None</em><big>)</big><a class="headerlink" href="#django_mongodb_engine.contrib.RawQueryMixin.raw_query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does a raw MongoDB query. The optional parameter <cite>query</cite> is the spec
 passed to PyMongo&#8217;s <tt class="xref py py-meth docutils literal"><span class="pre">find()</span></tt> method.</p>
-<p>Note that you can&#8217;t use regular Django filters and <tt class="xref py py-meth docutils literal"><span class="pre">raw_query()</span></tt>
-at the same time. Trying to do so will raise a <tt class="xref py py-exc docutils literal"><span class="pre">TypeError</span></tt>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -121,7 +119,7 @@ each item in the array the MapReduce query returns.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>map_func</strong> &#8211; JavaScript map function as string</li>
 <li><strong>reduce_func</strong> &#8211; The JavaScript reduce function as string</li>
 <li><strong>finalize_func</strong> &#8211; (optional) JavaScript finalize function as string</li>
@@ -146,7 +144,7 @@ each item in the array the MapReduce query returns.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>model</strong> &#8211; the model on that query the MapReduce was performed</li>
 <li><strong>key</strong> &#8211; the <em>key</em> from the result item</li>
 <li><strong>value</strong> &#8211; the <em>value</em> from the result item</li>
@@ -169,21 +167,10 @@ database (doing a database query).</p>
 <div class="section" id="module-django_mongodb_engine.fields">
 <span id="fields"></span><span id="mongodb-fields"></span><h2>Fields<a class="headerlink" href="#module-django_mongodb_engine.fields" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="django_mongodb_engine.fields.EmbeddedModelField">
-<em class="property">class </em><tt class="descclassname">django_mongodb_engine.fields.</tt><tt class="descname">EmbeddedModelField</tt><big>(</big><em>embedded_model=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_mongodb_engine.fields.EmbeddedModelField" title="Permalink to this definition">¶</a></dt>
-<dd><p>Field that allows you to embed a model instance.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> &#8211; (optional) The model class that shall be embedded
-(may also be passed as string similar to relation fields)</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<dt id="django_mongodb_engine.fields.LegacyEmbeddedModelField">
+<em class="property">class </em><tt class="descclassname">django_mongodb_engine.fields.</tt><tt class="descname">LegacyEmbeddedModelField</tt><big>(</big><em>embedded_model=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_mongodb_engine.fields.LegacyEmbeddedModelField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper around djangotoolbox&#8217; <tt class="xref py py-class docutils literal"><span class="pre">EmbeddedModelField</span></tt> that keeps
+backwards compatibility with data generated by django-mongodb-engine &lt; 0.3.</p>
 </dd></dl>
 
 </div>
@@ -200,11 +187,21 @@ similar to Django&#8217;s <tt class="xref py py-class docutils literal"><span cl
 <p>Those flags can be:</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">index_together</span></tt> (default: <tt class="docutils literal"><span class="pre">[]</span></tt>)</dt>
-<dd><p class="first">A list of dictionaries containing an item with the key <em>field</em> and a list of
-field names or <tt class="samp docutils literal"><span class="pre">(</span><em><span class="pre">field</span> <span class="pre">name</span></em><span class="pre">,</span> <em><span class="pre">index</span> <span class="pre">direction</span></em><span class="pre">)</span></tt> tuples to
-index together, optionally containing keyword arguments to pass to
+<dd><p class="first"><strong>Form 1</strong>: A list of field names or <tt class="samp docutils literal"><span class="pre">(</span><em><span class="pre">field</span> <span class="pre">name</span></em><span class="pre">,</span> <em><span class="pre">index</span> <span class="pre">direction</span></em><span class="pre">)</span></tt>
+tuples to index together. For instance,</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">index_together</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;last_name&#39;</span><span class="p">,</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">DESCENDING</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>results in this call:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">target_collection</span><span class="o">.</span><span class="n">ensure_index</span><span class="p">([(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;last_name&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>(<tt class="docutils literal"><span class="pre">pymongo.DESCENDING</span></tt> being the same as -1)</p>
+<p><strong>Form 2</strong>: A list of dictionaries containing an item with the key <em>field</em>
+and a list of field names or <tt class="samp docutils literal"><span class="pre">(</span><em><span class="pre">field</span> <span class="pre">name</span></em><span class="pre">,</span> <em><span class="pre">index</span> <span class="pre">direction</span></em><span class="pre">)</span></tt> tuples
+to index together as value, optionally containing keyword arguments to pass to
 <tt class="xref py py-meth docutils literal"><span class="pre">pymongo.Collection.ensure_index()</span></tt>. For example,</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">index_together</span> <span class="o">=</span> <span class="p">[{</span><span class="s">&#39;fields&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;last_name&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)],</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">index_together</span> <span class="o">=</span> <span class="p">[{</span><span class="s">&#39;fields&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;last_name&#39;</span><span class="p">,</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">DESCENDING</span><span class="p">)],</span>
                    <span class="s">&#39;name&#39;</span> <span class="p">:</span> <span class="s">&#39;name-lastname-index&#39;</span><span class="p">}]</span>
 </pre></div>
 </div>
@@ -237,8 +234,74 @@ and the maximum number of objects of the capped collection, respectively.</dd>
 <span id="model-referencing"></span><h2>Automatic Model Instance (De)Referencing<a class="headerlink" href="#automatic-model-instance-de-referencing" title="Permalink to this headline">¶</a></h2>
 <p>If you set the <tt class="docutils literal"><span class="pre">MONGODB_AUTOMATIC_REFERENCING</span></tt> option to <tt class="xref py py-class docutils literal"><span class="pre">True</span></tt> in
 your <tt class="file docutils literal"><span class="pre">settings.py</span></tt>, django-mongodb-engine automatically references
-model instances in <a class="reference internal" href="lists-and-dicts.html#ListField" title="ListField"><tt class="xref py py-class docutils literal"><span class="pre">lists</span></tt></a> or <a class="reference internal" href="lists-and-dicts.html#DictField" title="DictField"><tt class="xref py py-class docutils literal"><span class="pre">dicts</span></tt></a> on
+model instances in <tt class="xref py py-class docutils literal"><span class="pre">lists</span></tt> or <tt class="xref py py-class docutils literal"><span class="pre">dicts</span></tt> on
 saves and dereferences them when you access an attribute.</p>
+<p>This means that, similar to Django&#8217;s <tt class="docutils literal"><span class="pre">ForeignKey</span></tt>, the list will contain only
+IDs, not the instance data itself (which will go to a separate collection).</p>
+<p>If you want to embed model instances as MongoDB Embedded Objects, have a look at
+<a class="reference internal" href="embedded-objects.html#embedded-objects-list"><em>Embedded Objects in a List</em></a>.</p>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>Here we will create an object that has a both a list with a referenced model and
+a list with an embedded model to show the difference when storing each type.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">djangotoolbox.fields</span> <span class="kn">import</span> <span class="n">ListField</span><span class="p">,</span> <span class="n">EmbeddedModelField</span>
+
+<span class="k">class</span> <span class="nc">SimpleModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="n">value</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">ModelWithReferencedAndEmbeddedObjects</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="n">list_with_reference</span> <span class="o">=</span> <span class="n">ListField</span><span class="p">()</span>
+   <span class="n">list_with_embedded_model</span> <span class="o">=</span> <span class="n">ListField</span><span class="p">(</span><span class="n">EmbeddedModelField</span><span class="p">(</span><span class="n">SimpleModel</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Now lets add a <tt class="docutils literal"><span class="pre">SimpleModel</span></tt> instance to each list</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_simple_model</span> <span class="o">=</span> <span class="n">SimpleModel</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reference_model</span> <span class="o">=</span> <span class="n">ModelWithReferencedAndEmbeddedObjects</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reference_model</span><span class="o">.</span><span class="n">list_with_reference</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">my_simple_model</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reference_model</span><span class="o">.</span><span class="n">list_with_embedded_model</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">my_simple_model</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reference_model</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The resulting document will appear as follows:</p>
+<div class="highlight-js"><div class="highlight"><pre><span class="cm">/* db.sample_modelwithreferencedandembeddedobjects.findOne() */</span>
+<span class="p">{</span>
+     <span class="s2">&quot;_id&quot;</span> <span class="o">:</span> <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;4d604c2d93577c2d54000001&quot;</span><span class="p">),</span>
+     <span class="s2">&quot;list_with_reference&quot;</span> <span class="o">:</span> <span class="p">[</span>
+         <span class="p">{</span>
+             <span class="s2">&quot;_app&quot;</span> <span class="o">:</span> <span class="s2">&quot;sample&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;_model&quot;</span> <span class="o">:</span> <span class="s2">&quot;SimpleModel&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;_type&quot;</span> <span class="o">:</span> <span class="s2">&quot;django&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;pk&quot;</span> <span class="o">:</span> <span class="s2">&quot;4d604c2d93577c2d54000000&quot;</span>
+         <span class="p">}</span>
+     <span class="p">],</span>
+     <span class="s2">&quot;list_with_embedded_model&quot;</span> <span class="o">:</span> <span class="p">[</span>
+         <span class="p">{</span>
+             <span class="s2">&quot;id&quot;</span> <span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+             <span class="s2">&quot;value&quot;</span> <span class="o">:</span> <span class="mi">1</span>
+         <span class="p">}</span>
+     <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Notice that the <tt class="docutils literal"><span class="pre">list_with_reference</span></tt> value is set to a list with a dictionary
+containing information about the model and the ID referencing the object in another collection.
+On the other hand, the <tt class="docutils literal"><span class="pre">list_with_embedded_model</span></tt> value will have the serialized model
+instance contained within the list itself as an embedded model. When working with the
+<tt class="xref py py-class docutils literal"><span class="pre">list</span></tt> in Python there will be no difference between both options;
+although it&#8217;s important to keep in mind that if you use automatic deferencing,
+a query for each model instance will be done on first attribute access:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">reference_model</span> <span class="o">=</span> <span class="n">ModelWithReferencedAndEmbeddedObjects</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reference_model</span><span class="o">.</span><span class="n">list_with_reference</span><span class="o">.</span><span class="n">value</span> <span class="c"># does a SimpleModel.objects.get(id=&#39;4d604...&#39;) query</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reference_model</span><span class="o">.</span><span class="n">list_with_reference</span><span class="o">.</span><span class="n">value</span> <span class="c"># further attribute accesses don&#39;t need query</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>Note that adding model instances directly to a <tt class="xref py py-class docutils literal"><span class="pre">list</span></tt>
+or <tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt>, as is done here, without <tt class="docutils literal"><span class="pre">MONGODB_AUTOMATIC_REFERENCING</span></tt> set to
+<tt class="xref py py-class docutils literal"><span class="pre">True</span></tt> is not supported and you will get an error message if you try to do so.</p>
+</div>
 </div>
 </div>
 
@@ -262,7 +325,7 @@ saves and dereferences them when you access an attribute.</p>
         <li class="right" >
           <a href="lists-and-dicts.html" title="Storing Python Lists and Dicts"
              >previous</a> |</li>
-        <li><a href="index.html">django-mongodb-engine v0.3.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">django-mongodb-engine 0.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

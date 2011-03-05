@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Frequently Asked Questions &mdash; django-mongodb-engine v0.3.0 documentation</title>
+    <title>Frequently Asked Questions &mdash; django-mongodb-engine 0.3.0 documentation</title>
     
     <link rel="stylesheet" href="static/nature.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="django-mongodb-engine v0.3.0 documentation" href="index.html" />
+    <link rel="top" title="django-mongodb-engine 0.3.0 documentation" href="index.html" />
     <link rel="next" title="Changelog" href="changelog.html" />
     <link rel="prev" title="Other Cool Stuff" href="cool-stuff.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="cool-stuff.html" title="Other Cool Stuff"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">django-mongodb-engine v0.3.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">django-mongodb-engine 0.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -75,7 +75,10 @@
 <span id="query-debugging"></span><h2>Does it support query debugging?<a class="headerlink" href="#does-it-support-query-debugging" title="Permalink to this headline">¶</a></h2>
 <p>Yep! Set <tt class="docutils literal"><span class="pre">DEBUG</span></tt> to <tt class="xref py py-const docutils literal"><span class="pre">True</span></tt> in your <tt class="file docutils literal"><span class="pre">settings.py</span></tt> and
 <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/logging/#configuring-logging">configure</a>
-the <tt class="docutils literal"><span class="pre">django.db.backends</span></tt> logger, for example like this:</p>
+the <tt class="docutils literal"><span class="pre">django.db.backends</span></tt> logger (example follows).</p>
+<p>Please keep in mind that <a class="reference internal" href="cool-stuff.html#mapreduce"><em>Map/Reduce</em></a> and aggregation queries
+are not logged because they involve lots of JavaScript code (aggregations are
+implemented with <cite>group</cite> internally).</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">LOGGING</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s">&#39;version&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s">&#39;formatters&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&#39;simple&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="si">%(levelname)s</span><span class="s"> </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">}},</span>
@@ -118,7 +121,7 @@ the <tt class="docutils literal"><span class="pre">django.db.backends</span></tt
         <li class="right" >
           <a href="cool-stuff.html" title="Other Cool Stuff"
              >previous</a> |</li>
-        <li><a href="index.html">django-mongodb-engine v0.3.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">django-mongodb-engine 0.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
