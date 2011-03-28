@@ -1,0 +1,125 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Full List of MongoDB-specific Settings &mdash; django-mongodb-engine 0.3.0 documentation</title>
+    
+    <link rel="stylesheet" href="static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="django-mongodb-engine 0.3.0 documentation" href="index.html" />
+    <link rel="next" title="Changelog" href="changelog.html" />
+    <link rel="prev" title="Other Cool Stuff" href="cool-stuff.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="changelog.html" title="Changelog"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cool-stuff.html" title="Other Cool Stuff"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">django-mongodb-engine 0.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="full-list-of-mongodb-specific-settings">
+<h1>Full List of MongoDB-specific Settings<a class="headerlink" href="#full-list-of-mongodb-specific-settings" title="Permalink to this headline">¶</a></h1>
+<p>Django MongoDB Engine provides a way to specify settings specific to MongoDB.</p>
+<p><a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/settings/#std:setting-OPTIONS">Similar to Django&#8217;s built-in backends</a>, these optional settings can be specified
+in <tt class="docutils literal"><span class="pre">OPTIONS</span></tt> dictionary in your <tt class="docutils literal"><span class="pre">DATABASES</span></tt> configuration.</p>
+<p>All of these settings directly mirror PyMongo settings.
+In fact, all Django MongoDB Engine does is lower-casing the names before passing
+the flags to <a class="reference external" href="http://api.mongodb.org/python/1.9%2B/api/pymongo/connection.html#pymongo.connection.Connection" title="(in PyMongo v1.9+)"><tt class="xref py py-class docutils literal"><span class="pre">pymongo.connection.Connection</span></tt></a>.
+For a list of possible options head over to the <a class="reference external" href="http://api.mongodb.org/python/1.9%2B/api/pymongo/connection.html">PyMongo documentation on connection options</a>.</p>
+<div class="section" id="setting-consistency-requirements-for-database-operations">
+<span id="operations-setting"></span><h2>Setting Consistency Requirements for Database Operations<a class="headerlink" href="#setting-consistency-requirements-for-database-operations" title="Permalink to this headline">¶</a></h2>
+<p>Use the <tt class="docutils literal"><span class="pre">OPERATIONS</span></tt> dict to specify extra flags passed to
+<a class="reference external" href="http://api.mongodb.org/python/1.9%2B/api/pymongo/collection.html#pymongo.collection.Collection.save" title="(in PyMongo v1.9+)"><tt class="xref py py-meth docutils literal"><span class="pre">pymongo.collection.Collection.save()</span></tt></a>,
+<a class="reference external" href="http://api.mongodb.org/python/1.9%2B/api/pymongo/collection.html#pymongo.collection.Collection.update" title="(in PyMongo v1.9+)"><tt class="xref py py-meth docutils literal"><span class="pre">pymongo.collection.Collection.update()</span></tt></a> or
+<a class="reference external" href="http://api.mongodb.org/python/1.9%2B/api/pymongo/collection.html#pymongo.collection.Collection.remove" title="(in PyMongo v1.9+)"><tt class="xref py py-meth docutils literal"><span class="pre">pymongo.collection.Collection.remove()</span></tt></a>:</p>
+<div class="highlight-python"><pre>'OPTIONS' : {
+   ...
+   'OPERATIONS' : {'w' : 3} # implies safe=True
+}</pre>
+</div>
+<p>This passes <tt class="docutils literal"><span class="pre">safe=True,</span> <span class="pre">w=3</span></tt> as keyword arguments to each of
+<a class="reference external" href="http://api.mongodb.org/python/1.9%2B/api/pymongo/collection.html#pymongo.collection.Collection.save" title="(in PyMongo v1.9+)"><tt class="xref py py-meth docutils literal"><span class="pre">save()</span></tt></a>,
+<a class="reference external" href="http://api.mongodb.org/python/1.9%2B/api/pymongo/collection.html#pymongo.collection.Collection.update" title="(in PyMongo v1.9+)"><tt class="xref py py-meth docutils literal"><span class="pre">update()</span></tt></a> and
+<a class="reference external" href="http://api.mongodb.org/python/1.9%2B/api/pymongo/collection.html#pymongo.collection.Collection.remove" title="(in PyMongo v1.9+)"><tt class="xref py py-meth docutils literal"><span class="pre">remove()</span></tt></a>.</p>
+<p>Get a more fine-grained setup by introducing another layer to this dict:</p>
+<div class="highlight-python"><pre>'OPTIONS' : {
+   ...
+   'OPERATIONS' : {
+      'save' : {'safe' : True},
+      'update' : {},
+      'delete' : {'fsync' : True} # implies safe=True
+}</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The operations showed above map to the <strong>Django</strong> operations <cite>save</cite>, <cite>update</cite>
+and <cite>delete</cite> (<strong>not</strong> to MongoDB operations). This is because Django abstracts
+&#8220;<cite>insert vs. update</cite>&#8221; into <cite>save</cite>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="changelog.html" title="Changelog"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cool-stuff.html" title="Other Cool Stuff"
+             >previous</a> |</li>
+        <li><a href="index.html">django-mongodb-engine 0.3.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009-2010: Flavio Percoco, Alberto Paro, Jonas Haag &amp; contributors.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+    </div>
+  </body>
+</html>
