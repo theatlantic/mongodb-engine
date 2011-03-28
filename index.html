@@ -64,7 +64,7 @@ cd mongodb-engine &amp;&amp; python setup.py install</pre>
 <p>or use <tt class="docutils literal"><span class="pre">pip</span></tt> to install the latest release from PyPI:</p>
 <div class="highlight-python"><pre>pip install django-mongodb-engine</pre>
 </div>
-<p>Database setup is easy (see also: <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/settings/#databases">Django database setup docs</a>):</p>
+<p>Database setup is easy (see also: <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/settings/#databases">Django database setup docs</a> and <a class="reference internal" href="settings.html"><em>Full List of MongoDB-specific Settings</em></a>):</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
    <span class="s">&#39;default&#39;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="s">&#39;ENGINE&#39;</span> <span class="p">:</span> <span class="s">&#39;django_mongodb_engine&#39;</span><span class="p">,</span>
@@ -72,8 +72,7 @@ cd mongodb-engine &amp;&amp; python setup.py install</pre>
 
       <span class="c"># optional:</span>
       <span class="s">&#39;HOST&#39;</span> <span class="p">:</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span>
-      <span class="s">&#39;PORT&#39;</span> <span class="p">:</span> <span class="mi">27017</span><span class="p">,</span>
-      <span class="s">&#39;SUPPORTS_TRANSACTIONS&#39;</span> <span class="p">:</span> <span class="bp">False</span>
+      <span class="s">&#39;PORT&#39;</span> <span class="p">:</span> <span class="mi">27017</span>
    <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -104,15 +103,20 @@ as you would do with any other database.</p>
 <li class="toctree-l2"><a class="reference internal" href="cool-stuff.html#automatic-model-instance-de-referencing">Automatic Model Instance (De)Referencing</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#does-it-support-joins">Does it support JOINs?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#does-it-support-transactions">Does it support transactions?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#can-i-do-raw-queries-updates">Can I do Raw Queries/Updates?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#how-can-i-use-capped-collections">How can I use Capped Collections?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#does-it-support-query-debugging">Does it support query debugging?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qa.html">Q &amp; A</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qa.html#does-it-support-joins">Does it support JOINs?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qa.html#does-it-support-transactions">Does it support transactions?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qa.html#can-i-do-raw-queries-updates">Can I do Raw Queries/Updates?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qa.html#how-can-i-use-capped-collections">How can I use Capped Collections?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qa.html#does-it-support-query-debugging">Does it support query debugging?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Full List of MongoDB-specific Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#setting-consistency-requirements-for-database-operations">Setting Consistency Requirements for Database Operations</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-4">Version 0.4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-3">Version 0.3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-2">Version 0.2</a></li>
 </ul>
