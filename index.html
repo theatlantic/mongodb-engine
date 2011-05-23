@@ -1,0 +1,25 @@
+<!doctype html>
+<meta http-equiv=refresh content="3; http://django-mongodb.org">
+
+<title>Redirecting...</title>
+
+<style>
+body { text-align: center; }
+</style>
+
+<h1>This site has been moved</h1>
+<p>Redirecting to <a href=http://django-mongodb.org>http://django-mongodb.org</a><span></span>...</p>
+
+<script>
+var foo = document.getElementsByTagName('span').item(0);
+n = 3;
+function update() {
+  if(!n) {
+    foo.innerHTML = ' now';
+    return;
+  }
+  foo.innerHTML = ' in ' + n--;
+  setTimeout(update, 1000);
+}
+update();
+</script>
