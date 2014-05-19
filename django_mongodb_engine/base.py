@@ -6,6 +6,7 @@ import warnings
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.db import router
 from django.db.backends.signals import connection_created
 from django.db.utils import DatabaseError
 from pymongo import ReadPreference
@@ -32,6 +33,7 @@ from djangotoolbox.db.base import (
 from djangotoolbox.db.utils import decimal_to_string
 
 from .creation import DatabaseCreation
+from .router import _mongodbs
 from .utils import CollectionDebugWrapper
 
 
@@ -97,10 +99,9 @@ class DatabaseOperations(NonrelDatabaseOperations):
                 value, field.max_digits, field.decimal_places)
 
         # Anything with the "key" db_type is converted to an ObjectId.
-        if db_type == 'key':
+        if db_type == 'key' and router.db_for_write(field.model) in _mongodbs:
             try:
                 return ObjectId(value)
-
             # Provide a better message for invalid IDs.
             except (TypeError, InvalidId):
                 if isinstance(value, (str, unicode)) and len(value) > 13:
@@ -136,7 +137,7 @@ class DatabaseOperations(NonrelDatabaseOperations):
             return None
 
         # All keys have been turned into ObjectIds.
-        if db_type == 'key':
+        if db_type == 'key' and router.db_for_write(field.model) in _mongodbs:
             value = unicode(value)
 
         # We've converted dates and times to datetimes.
